@@ -1,30 +1,34 @@
 <div class="form">
   <h2 id="registration">Registration Form</h2>
   <form [formGroup]="reactiveForm" (ngSubmit)="onSubmit()">
-
-      <label for="fname">First Name</label>
-      <input type="text" id="fname" placeholder="Your name.." formControlName="firstname">
-      <div>
-        <span *ngIf="reactiveForm.get('firstname').errors?.['required']">Name cannot be empty</span>
+      <div formGroupName="personalDetails">
+        <label for="fname">First Name</label>
+        <input type="text" id="fname" placeholder="Your name.." formControlName="firstname">
+        <div *ngIf="!reactiveForm.get('personalDetails.firstname')?.valid && reactiveForm.get('personalDetails.firstname')?.touched " class="error">
+          <span *ngIf="!reactiveForm.get('personalDetails.firstname')?.errors!['required'] ">Name cannot have spacess</span>
+          <!-- <span *ngIf="!reactiveForm.get('personalDetails.firstname')!errors!['noSpaceAllowed'] ">Name cannot have spaces</span> -->
+        </div>
+        <!-- <p *ngIf="firstname">You entered:{{firstname}}</p> -->
+        <!-- <div>
+          <h5 *ngIf="fname.invalid && fname.touched">Please enter name</h5>
+        </div> -->
+        <label for="lname">Last Name</label>
+        <input type="text" id="lname" placeholder="Your last name.." formControlName="lastname">
+        <!-- <div>
+          <h5 *ngIf="lname.invalid && lname.touched">Please enter last name</h5>
+        </div> -->
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Your last email.." formControlName="email">
+        <!-- <div>
+          <h5 *ngIf="email.invalid && email.touched">Please enter a valid email</h5>
+        </div> -->
+        <!-- <div>
+          <h5 *ngIf="personalDetails.invalid && personalDetails.touched">Some fields you entered are invalid</h5>
+        </div> -->
+      <!-- </div> -->
       </div>
-      <!-- <p *ngIf="firstname">You entered:{{firstname}}</p> -->
-      <!-- <div>
-        <h5 *ngIf="fname.invalid && fname.touched">Please enter name</h5>
-      </div> -->
-      <label for="lname">Last Name</label>
-      <input type="text" id="lname" placeholder="Your last name.." formControlName="lastname">
-      <!-- <div>
-        <h5 *ngIf="lname.invalid && lname.touched">Please enter last name</h5>
-      </div> -->
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="Your last email.." formControlName="email">
-      <!-- <div>
-        <h5 *ngIf="email.invalid && email.touched">Please enter a valid email</h5>
-      </div> -->
-      <!-- <div>
-        <h5 *ngIf="personalDetails.invalid && personalDetails.touched">Some fields you entered are invalid</h5>
-      </div> -->
-    <!-- </div> -->
+
+
 
         <label for="country">Country</label>
         <select id="country" formControlName="country">
@@ -38,7 +42,7 @@
       <label for="gender">Gender:</label>
         <input type="radio" id="male" value="male" formControlName="gender">
         <label for="male">Male</label>
-    
+
         <input type="radio" id="female" value="female" formControlName="gender">
         <label for="female">Female</label>
       <br><br>
@@ -47,6 +51,15 @@
           <label><input type="checkbox" value="sports" formControlName="hobbies"> Sports</label>
           <label><input type="checkbox" value="movies" formControlName="hobbies"> Movies</label>
           <label><input type="checkbox" value="music" formControlName="hobbies"> Music</label>
+      </div>
+
+
+      <div formArrayName="skills">
+        <!-- <ng-container *ngFor="let skill of reactiveForm.get('skills')['controls'] index as i">
+        <input type="text" placeholder="skills....." formArrayName="{{i}}" >
+
+        </ng-container> -->
+        <button (click)="addSkills()">+ skill</button>
       </div>
 
       <input type="submit" value="Submit" id="btn">
